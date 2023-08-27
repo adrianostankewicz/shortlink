@@ -3,7 +3,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use InvalidArgumentException;
-use App\Modules\Auth\Entity\User;
+use App\Modules\Auth\Entity\UserEntity;
 
 /**
  * Unit tests for User
@@ -11,7 +11,7 @@ use App\Modules\Auth\Entity\User;
  * @version 1.0.0
  * @since 1.0.0
  */
-class UserTest extends TestCase
+class UserEntityTest extends TestCase
 {
     /**
      * @author Adriano Stankewicz
@@ -22,7 +22,8 @@ class UserTest extends TestCase
     public function shouldThrowExceptionWhenCreateAUserWithEmptyName(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(__('auth.entity.user.fields.name'));
-        $user = new User(
+        $user = new UserEntity(
+            null,
             '',
             'user@user.com',
             '12345'
@@ -38,7 +39,8 @@ class UserTest extends TestCase
     public function shouldThrowExceptionWhenCreateAUserWithEmptyEmail(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(__('auth.entity.user.fields.email'));
-        $user = new User(
+        $user = new UserEntity(
+            null,
             'User 1',
             '',
             '12345'
@@ -54,7 +56,8 @@ class UserTest extends TestCase
     public function shouldThrowExceptionWhenCreateAUserWithEmptyPassword(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(__('auth.entity.user.fields.password'));
-        $user = new User(
+        $user = new UserEntity(
+            null,
             'User 1',
             'user@user.com',
             ''
@@ -68,13 +71,14 @@ class UserTest extends TestCase
      * @test
      */
     public function shouldCreateAUser(): void {
-        $user = new User(
+        $user = new UserEntity(
+            null,
             'User 1',
             'user@user.com',
             '12345'
         );
 
-        $this->assertInstanceOf(User::class, $user);
+        $this->assertInstanceOf(UserEntity::class, $user);
         $this->assertEquals('User 1', $user->getName());
         $this->assertEquals('user@user.com', $user->getEmail());
         $this->assertEquals('12345', $user->getPassword());

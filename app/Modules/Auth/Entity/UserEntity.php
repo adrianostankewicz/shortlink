@@ -3,6 +3,8 @@ namespace App\Modules\Auth\Entity;
 
 use DateTime;
 use InvalidArgumentException;
+use App\Modules\_Shared\Entity\Entity;
+use App\Modules\Auth\Service\UserService;
 
 /**
  * This class represents a user entity
@@ -11,7 +13,7 @@ use InvalidArgumentException;
  * @version 1.0.0
  * @since 1.0.0
  */
-class User {
+class UserEntity extends Entity {
 
     /**
      * Create a new user object
@@ -27,12 +29,12 @@ class User {
      * @since 1.0.0
      */
     public function __construct(
+        private ?int $id,
         private string $name,
         private string $email,
         private string $password,
         private ?DateTime $createdAt = null,
         private ?DateTime $updatedAt = null,
-        private ?int $id = null,
     )
     {
         $this->validate();
@@ -66,6 +68,10 @@ class User {
           return true;
     }
 
+    public function getId(): int {
+        return $this->id;
+    }
+
     public function getName(): string {
         return $this->name;
     }
@@ -76,5 +82,9 @@ class User {
 
     public function getPassword(): string {
         return $this->password;
+    }
+
+    public function changePassword(string $password): void {
+        $this->password = $password;
     }
 }
