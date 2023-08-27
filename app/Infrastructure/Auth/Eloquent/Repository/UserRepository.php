@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace App\Infrastructure\Auth\Eloquent\Repository;
 
-use Exception;
 use InvalidArgumentException;
 use App\Modules\_Shared\Entity\Entity;
 use App\Exceptions\RepositoryException;
@@ -28,7 +27,7 @@ class UserRepository implements UserRepositoryInterface {
      * @since 1.0.0
      * @param UserEntity $userEntity
      * @return void
-     * @throws Exception
+     * @throws RepositoryException
      */
     public function add(Entity $userEntity): void {
         if(!$userEntity instanceof UserEntity){
@@ -37,16 +36,14 @@ class UserRepository implements UserRepositoryInterface {
             );
         }
 
-        $password = UserService::encryptPassword($userEntity->getPassword());
-
         try{
             UserModel::create([
                 'name'      => $userEntity->getName(),
                 'email'     => $userEntity->getEmail(),
-                'password'  => $password
+                'password'  => $userEntity->getPassword()
             ]);
         } catch(QueryException $e){
-            throw new RepositoryException(__('auth.repository.user.exception.add'). $e->getMessage());
+            throw new RepositoryException(__('auth.repository.user.exception.add'));
         }
     }
 
@@ -58,6 +55,7 @@ class UserRepository implements UserRepositoryInterface {
      * @since 1.0.0
      * @param UserEntity $userEntity
      * @return void
+     * @throws RepositoryException
      */
     public function update(Entity $userEntity): void {
         if(!$userEntity instanceof UserEntity){
@@ -68,7 +66,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $user = UserModel::find($userEntity->getId());
 
-        if(!$user) {
+        if(is_null($user)) {
             throw new RepositoryException(__('auth.repository.user.exception.find'));
         }
 
@@ -100,15 +98,17 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function find(int $id): UserEntity|null {
         $user = UserModel::find($id);
-        if(!is_null($user)){
-            return new UserEntity(
-                $user->id,
-                $user->name,
-                $user->email,
-                $user->password
-            );
+
+        if(is_null($user)){
+            return null;
         }
-        return null;
+
+        return new UserEntity(
+            $user->id,
+            $user->name,
+            $user->email,
+            $user->password
+        );
     }
 
     /**
@@ -117,8 +117,7 @@ class UserRepository implements UserRepositoryInterface {
      * @author Adriano Stankewicz
      * @version 1.0.0
      * @since 1.0.0
-     * @param UserEntity $userEntity
-     * @return void
+     * @return array
      */
     public function findAll(): array {
         $users = UserModel::all();
@@ -144,7 +143,7 @@ class UserRepository implements UserRepositoryInterface {
      * @author Adriano Stankewicz
      * @version 1.0.0
      * @since 1.0.0
-     * @param UserEntity $userEntity
+     * @param int $id
      * @return void
      */
     public function remove(int $id): void {
@@ -164,14 +163,16 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function findByEmail(string $email): UserEntity|null {
         $user = UserModel::where('email', $email)->first();
-        if(!is_null($user)) {
-            return new UserEntity(
-                $user->id,
-                $user->name,
-                $user->email,
-                $user->password
-            );
+
+        if(is_null($user)) {
+            return null;
         }
-        return null;
+
+        return new UserEntity(
+            $user->id,
+            $user->name,
+            $user->email,
+            $user->password
+        );
     }
 }

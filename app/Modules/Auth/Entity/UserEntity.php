@@ -32,7 +32,7 @@ class UserEntity extends Entity {
         private ?int $id,
         private string $name,
         private string $email,
-        private string $password,
+        private ?string $password,
         private ?DateTime $createdAt = null,
         private ?DateTime $updatedAt = null,
     )
