@@ -4,7 +4,6 @@ namespace App\Modules\Auth\Entity;
 use DateTime;
 use InvalidArgumentException;
 use App\Modules\_Shared\Entity\Entity;
-use App\Modules\Auth\Service\UserService;
 
 /**
  * This class represents a user entity
@@ -17,16 +16,16 @@ class UserEntity extends Entity {
 
     /**
      * Create a new user object
+     *
+     * @author Adriano Stankewicz
+     * @version 1.0.0
+     * @since 1.0.0
      * @param string $name
      * @param string $email
      * @param string $password
      * @param DateTime|null $createdAt
      * @param DateTime|null $updatedAt
      * @param integer|null $id
-     *
-     * @author Adriano Stankewicz
-     * @version 1.0.0
-     * @since 1.0.0
      */
     public function __construct(
         private ?int $id,
@@ -49,7 +48,7 @@ class UserEntity extends Entity {
      * @since 1.0.0
      */
     private function validate(): bool|InvalidArgumentException {
-        if(!empty($this->id) && $this->id <= 0) {
+        if(!is_null($this->id) && $this->id <= 0) {
             throw new InvalidArgumentException(__('auth.entity.user.fields.id'));
           }
 

@@ -11,8 +11,25 @@ use App\Modules\Auth\Entity\UserEntity;
  * @version 1.0.0
  * @since 1.0.0
  */
-class UserEntityTest extends TestCase
-{
+class UserEntityTest extends TestCase {
+
+    /**
+     * @author Adriano Stankewicz
+     * @version 1.0.0
+     * @since 1.0.0
+     * @test
+     */
+    public function shouldThrowExceptionWhenCreateAUserWithIdLessThanOrEqualToZero(): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(__('auth.entity.user.fields.name'));
+        $user = new UserEntity(
+            0,
+            'User 1',
+            'user@user.com',
+            '12345'
+        );
+    }
+
     /**
      * @author Adriano Stankewicz
      * @version 1.0.0
