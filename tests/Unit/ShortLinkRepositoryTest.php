@@ -2,6 +2,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use InvalidArgumentException;
 use App\Modules\_Shared\Entity\Entity;
 use App\Modules\ShortLink\Entity\ShortLinkEntity;
 use App\Infrastructure\ShortLink\Eloquent\Repository\ShortLinkRepository;

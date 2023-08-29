@@ -1,32 +1,32 @@
 <?php declare(strict_types=1);
-namespace App\Modules\ShortLink\UseCase\FindAllShortLinksUseCase;
+namespace App\Modules\Auth\UseCase\FindAllUsersUseCase;
 
 use App\Modules\_Shared\UseCase\UseCaseInterface;
-use App\Infrastructure\ShortLink\Eloquent\Repository\ShortLinkRepository;
-use App\Modules\ShortLink\UseCase\FindAllShortLinksUseCase\OutputFindAllShortLinksUseCaseDTO;
+use App\Infrastructure\Auth\Eloquent\Repository\UserRepository;
+use App\Modules\Auth\UseCase\FindAllUsersUseCase\OutputFindAllUsersUseCaseDTO;
 
 /**
- * This class represents a Use Case to find all short links in the application.
+ * This class represents a Use Case to find all users in the application.
  *
  * @author Adriano Stankewicz
  * @version 1.0.0
  * @since 1.0.0
  */
-class FindAllShortLinksUseCase implements UseCaseInterface {
+class FindAllUserUseCase implements UseCaseInterface {
 
     /**
-     * @var ShortLinkRepository
+     * @var UserRepository
      */
-    private $shortLinkRepository;
+    private $userRepository;
 
     /**
      * @author Adriano Stankewicz
      * @version 1.0.0
      * @since 1.0.0
-     * @param ShortLinkRepository $shortLinkRepository
+     * @param UserRepository $userRepository
      */
-    public function __construct(ShortLinkRepository $shortLinkRepository) {
-      $this->shortLinkRepository = $shortLinkRepository;
+    public function __construct(UserRepository $userRepository) {
+      $this->userRepository = $userRepository;
     }
 
     /**
@@ -38,19 +38,18 @@ class FindAllShortLinksUseCase implements UseCaseInterface {
      * @return array
      */
     public function execute(): array {
-        $shortLinks = $this->shortLinkRepository->findAll();
+        $users = $this->userRepository->findAll();
 
         $entities = array();
-        if(count($shortLinks) > 0) {
-            foreach($shortLinks as $shortLink) {
-                $shortLinkEntity = new OutputFindAllShortLinksUseCaseDTO(
-                    $shortLink->getId(),
-                    $shortLink->getOriginalLink(),
-                    $shortLink->getIdentifier(),
-                    $shortLink->getUserId()
+        if(count($users) > 0) {
+            foreach($users as $user) {
+                $userEntity = new OutputFindAllUsersUseCaseDTO(
+                    $user->getId(),
+                    $user->getName(),
+                    $user->getEmail()
                 );
 
-                array_push($entities, $shortLinkEntity);
+                array_push($entities, $userEntity);
             }
         }
         return $entities;

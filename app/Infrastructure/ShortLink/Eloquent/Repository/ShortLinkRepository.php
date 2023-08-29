@@ -31,7 +31,7 @@ class ShortLinkRepository implements ShortLinkRepositoryInterface {
     public function add(Entity $shortLinkEntity): void {
         if(!$shortLinkEntity instanceof ShortLinkEntity){
             throw new InvalidArgumentException(
-                __('shortLink.repository.shortLink.params', ['class' => 'ShortLinkEntity'])
+                __('shortlink.repository.shortlink.params', ['class' => 'ShortLinkEntity'])
             );
         }
 
@@ -42,7 +42,7 @@ class ShortLinkRepository implements ShortLinkRepositoryInterface {
                 'user_id'       => $shortLinkEntity->getUserId()
             ]);
         } catch(QueryException $e){
-            throw new RepositoryException(__('shortLink.repository.shortLink.exception.add'));
+            throw new RepositoryException(__('shortlink.repository.shortlink.exception.add'));
         }
     }
 

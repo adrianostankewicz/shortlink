@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('short_link_models', function (Blueprint $table) {
+        Schema::create('short_link_historys', function (Blueprint $table) {
             $table->id();
-            $table->string('original_link', 191);
-            $table->string('identifier', 20);
-            $table->unsignedBigInteger('user_id');
+            $table->string('ip', 15);
+            $table->string('user_agent', 191);
+            $table->unsignedBigInteger('short_link_id');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('short_link_id')->references('id')->on('short_links')->onDelete('CASCADE');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('short_link_models');
+        Schema::dropIfExists('short_link_historys');
     }
 };
