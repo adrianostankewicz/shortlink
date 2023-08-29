@@ -11,7 +11,7 @@ use App\Infrastructure\Auth\Eloquent\Models\UserModel;
 use App\Modules\Auth\Repository\UserRepositoryInterface;
 
 /**
- * This class implements the actions to manipulate a user repository
+ * This class implements the actions to manipulate the user repository
  *
  * @author Adriano Stankewicz
  * @version 1.0.0

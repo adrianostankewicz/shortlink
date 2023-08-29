@@ -21,7 +21,7 @@ class ShortLinkTest extends TestCase {
      */
     public function shouldThrowExceptionWhenCreateAShortLinkWithIdLessThanOrEqualToZero(): void {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(__('auth.entity.shortlink.fields.id'));
+        $this->expectExceptionMessage(__('shortlink.entity.shortlink.fields.id'));
         $shortLink = new ShortLinkEntity(
             0,
             '',
@@ -38,7 +38,7 @@ class ShortLinkTest extends TestCase {
      */
     public function shouldThrowExceptionWhenCreateAShortLinkWithEmptyOriginalLink(): void {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(__('auth.entity.shortlink.fields.original_link'));
+        $this->expectExceptionMessage(__('shortlink.entity.shortlink.fields.original_link'));
         $shortLink = new ShortLinkEntity(
             null,
             '',
@@ -55,7 +55,7 @@ class ShortLinkTest extends TestCase {
      */
     public function shouldThrowExceptionWhenCreateAEmptyIdentifier(): void {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(__('auth.entity.shortlink.fields.identifier'));
+        $this->expectExceptionMessage(__('shortlink.entity.shortlink.fields.identifier'));
         $shortLink = new ShortLinkEntity(
             null,
             'https://google.com',
@@ -72,7 +72,7 @@ class ShortLinkTest extends TestCase {
      */
     public function shouldThrowExceptionWhenCreateAUserIdLessThanOrEqualToZero(): void {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(__('auth.entity.shortlink.fields.user_id'));
+        $this->expectExceptionMessage(__('shortlink.entity.shortlink.fields.user_id'));
         $shortLink = new ShortLinkEntity(
             null,
             'https://google.com',

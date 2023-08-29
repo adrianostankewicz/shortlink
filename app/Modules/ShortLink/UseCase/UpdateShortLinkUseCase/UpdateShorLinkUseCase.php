@@ -1,20 +1,22 @@
 <?php declare(strict_types=1);
-namespace App\Modules\ShortLink\UseCase\DeleteShortLinkUseCase;
+namespace App\Modules\ShortLink\UseCase\UpdateShortLinkUseCase;
 
 use App\Exceptions\UseCaseException;
+use App\Exceptions\RepositoryException;
+use App\Modules\ShortLink\Entity\ShortLinkEntity;
 use App\Modules\_Shared\UseCase\InputUseCaseDTO;
+
 use App\Modules\_Shared\UseCase\UseCaseWithInputInterface;
 use App\Infrastructure\ShortLink\Eloquent\Repository\ShortLinkRepository;
-use App\Modules\ShortLink\UseCase\DeleteUserUseCase\InputShortLinkDeleteUseCaseDTO;
 
 /**
- * This class represents a Use Case to delete a short link in the application.
+ * This class represents a Use Case to update a short link in the application.
  *
  * @author Adriano Stankewicz
  * @version 1.0.0
  * @since 1.0.0
  */
-class DeleteShortLinkUseCase implements UseCaseWithInputInterface {
+class UpdateShortLinkUseCase implements UseCaseWithInputInterface {
 
     /**
      * @var ShortLinkRepository
@@ -32,24 +34,35 @@ class DeleteShortLinkUseCase implements UseCaseWithInputInterface {
     }
 
     /**
-     * Execute the Use Case to delete a existing short link
+     * Execute the Use Case to update a existing shortLink
      *
      * @author Adriano Stankewicz
      * @version 1.0.0
      * @since 1.0.0
-     * @param InputShortLinkDeleteUseCaseDTO $input
+     * @param InputUpdateShortLinkUseCaseDTO $input
      * @return void
      * @throws UseCaseException
      */
     public function execute(InputUseCaseDTO $input): void {
-        if(!$input instanceof InputShortLinkDeleteUseCaseDTO){
+        if(!$input instanceof InputUpdateShortLinkUseCaseDTO){
             throw new UseCaseException(
-                __('auth.usecase.user.params',
-                    ['class' => 'InputShortLinkDeleteUseCaseDTO']
+                __('shortLink.usecase.shortLink.params',
+                    ['class' => 'InputUpdateShortLinkUseCaseDTO']
                 )
             );
         }
 
-        $this->shortLinkRepository->remove($input->getId());
+        $shortLinkEntity = new ShortLinkEntity(
+            $input->getId(),
+            $input->getOriginalLink(),
+            $input->getIdentifier(),
+            $input->getUserId(),
+        );
+
+        try{
+            $this->shortLinkRepository->update($shortLinkEntity);
+        } catch(RepositoryException $e){
+            throw new UseCaseException($e->getMessage());
+        }
     }
 }

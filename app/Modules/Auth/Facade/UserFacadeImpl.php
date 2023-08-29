@@ -61,7 +61,7 @@ class UserFacadeImpl implements UserFacade {
     }
 
     /**
-     * Execute a use case to update a new user entity
+     * Execute a use case to update a existing user entity
      *
      * @author Adriano Stankewicz
      * @version 1.0.0

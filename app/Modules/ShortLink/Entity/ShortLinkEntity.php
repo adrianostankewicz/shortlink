@@ -43,19 +43,19 @@ class ShortLinkEntity extends Entity {
      */
     public function validate(): bool {
         if(!is_null($this->id) && $this->id <= 0) {
-            throw new InvalidArgumentException(__('auth.entity.shortlink.fields.id'));
+            throw new InvalidArgumentException(__('shortlink.entity.shortlink.fields.id'));
         }
 
         if(empty($this->originalLink)) {
-            throw new InvalidArgumentException(__('auth.entity.shortlink.fields.original_link'));
+            throw new InvalidArgumentException(__('shortlink.entity.shortlink.fields.original_link'));
         }
 
         if(empty($this->identifier)) {
-            throw new InvalidArgumentException(__('auth.entity.shortlink.fields.identifier'));
+            throw new InvalidArgumentException(__('shortlink.entity.shortlink.fields.identifier'));
         }
 
         if(empty($this->userId) && $this->userId <= 0) {
-            throw new InvalidArgumentException(__('auth.entity.shortlink.fields.user_id'));
+            throw new InvalidArgumentException(__('shortlink.entity.shortlink.fields.user_id'));
         }
 
         return true;

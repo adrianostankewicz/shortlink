@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Tests\Unit;
 
-use App\Infrastructure\Auth\Eloquent\Models\UserModel;
 use Tests\TestCase;
 use InvalidArgumentException;
 use App\Modules\_Shared\Entity\Entity;
@@ -15,8 +14,8 @@ use App\Modules\Auth\Service\UserService;
  * @version 1.0.0
  * @since 1.0.0
  */
-class UserRepositoryTest extends TestCase
-{
+class UserRepositoryTest extends TestCase {
+
     /**
      * @author Adriano Stankewicz
      * @version 1.0.0
@@ -100,7 +99,9 @@ class UserRepositoryTest extends TestCase
         $userUpdated = $repository->findByEmail($user->getEmail());
 
         $this->assertInstanceOf(UserEntity::class, $userUpdated);
+        $this->assertEquals($user->getId(), $userUpdated->getId());
         $this->assertEquals($user->getName(), $userUpdated->getName());
+        $this->assertEquals($user->getEmail(), $userUpdated->getEmail());
         $this->assertTrue(
             UserService::checkPassword(
                 $user->getPassword(),
